@@ -20,6 +20,7 @@ class CalculatorViewModel:ViewModel() {
             'x', '÷', '+', '-', '.'
         )
 
+
     fun delete() {
         if (_operationsText.value.isNotEmpty()) {
             _operationsText.value = ""
@@ -75,7 +76,10 @@ class CalculatorViewModel:ViewModel() {
 
     fun result() {
         viewModelScope.launch {
-            if (_operationsText.value.isNotEmpty()) {
+            if (safeOperation()) {
+                _resultText.value = calculate(_operationsText.value).toString()
+            } else {
+                deleteLast()
                 _resultText.value = calculate(_operationsText.value).toString()
             }
         }
